@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import {
   CCard,
   CCardBody,
@@ -16,6 +15,7 @@ import {
   CTableHeaderCell,
   CTableRow,
 } from '@coreui/react'
+import React, { useState } from 'react'
 import BudgetEditModal from '../modals/BudgetEditModal'
 
 // const data = [
@@ -470,7 +470,6 @@ const ExpensesProfits = () => {
     },
   ])
 
-
   const filteredData = data.filter((item) => {
     const matchesDate =
       !startDate || !endDate || (item.january >= startDate && item.february <= endDate)
@@ -479,19 +478,17 @@ const ExpensesProfits = () => {
   })
 
   const handleUpdateBudget = ({ accountId, month, value }) => {
-    const newData = data.map(item => {
+    const newData = data.map((item) => {
       if (item.id === accountId) {
         return {
           ...item,
-          [`${month}_budget`]: value
+          [`${month}_budget`]: value,
         }
       }
       return item
     })
     console.log(newData)
-    console.log(accountId, month, value )
-    
-    
+    console.log(accountId, month, value)
   }
 
   const lastIndex = currentPage * itemsPerPage
@@ -505,8 +502,6 @@ const ExpensesProfits = () => {
         <CCol xs>
           <CCard className="mb-4">
             <CCardHeader>Cuenta de pérdidas y ganancias</CCardHeader>
-            <BudgetEditModal data={data} onUpdateBudget={handleUpdateBudget} />
-            
             <CCardBody>
               <CCard>
                 <CCardBody className="bg-secondary rounded">
@@ -539,6 +534,11 @@ const ExpensesProfits = () => {
                   </CRow>
                 </CCardBody>
               </CCard>
+              <CRow className="mt-3">
+                <CCol>
+                  <BudgetEditModal data={data} onUpdateBudget={handleUpdateBudget} />
+                </CCol>
+              </CRow>
 
               <CRow className="mt-3">
                 <CCol xs="12" md="6" lg="4" className="mb-3 mb-md-0">

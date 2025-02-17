@@ -35,13 +35,13 @@ const BudgetEditModal = ({ data, onUpdateBudget }) => {
 
   const getCurrentBudget = () => {
     if (!selectedMonth || !selectedAccount) return ''
-    const account = data.find(item => item.id === parseInt(selectedAccount))
+    const account = data.find((item) => item.id === parseInt(selectedAccount))
     return account ? account[`${selectedMonth}_budget`] : ''
   }
 
   return (
     <>
-      <CButton color="primary" onClick={() => setVisible(true)}>
+      <CButton color="primary" onClick={() => setVisible(true)} style={{ width: '100%' }}>
         Editar Presupuesto
       </CButton>
 
@@ -89,11 +89,7 @@ const BudgetEditModal = ({ data, onUpdateBudget }) => {
             {selectedMonth && selectedAccount && (
               <div className="mb-3">
                 <label className="form-label">Presupuesto Actual</label>
-                <CFormInput
-                  type="text"
-                  value={getCurrentBudget()}
-                  disabled
-                />
+                <CFormInput type="text" value={getCurrentBudget()} disabled />
               </div>
             )}
 
