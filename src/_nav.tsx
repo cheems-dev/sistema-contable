@@ -17,6 +17,8 @@ import {
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
+// Define TypeScript interfaces for type safety
+
 const _nav = [
   {
     component: CNavItem,
@@ -43,25 +45,11 @@ const _nav = [
         name: 'Gastos y Ganancias',
         to: '/gastos-ganancias',
       },
-      /* {
-        component: CNavItem,
-        name: 'Breadcrumb',
-        to: '/base/breadcrumbs',
-      },
       {
         component: CNavItem,
-        name: (
-          <React.Fragment>
-            {'Calendar'}
-            <CIcon icon={cilExternalLink} size="sm" className="ms-2" />
-          </React.Fragment>
-        ),
-        href: 'https://coreui.io/react/docs/components/calendar/',
-        badge: {
-          color: 'danger',
-          text: 'PRO',
-        },
-      }, */
+        name: 'Balance General',
+        to: '/balance-general',
+      },
     ],
   },
 ]

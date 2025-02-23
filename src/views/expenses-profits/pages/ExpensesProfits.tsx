@@ -1,3 +1,5 @@
+import React, { useState } from 'react'
+
 import {
   CCard,
   CCardBody,
@@ -15,7 +17,6 @@ import {
   CTableHeaderCell,
   CTableRow,
 } from '@coreui/react'
-import React, { useState } from 'react'
 import BudgetEditModal from '../modals/BudgetEditModal'
 
 const ExpensesProfits = () => {

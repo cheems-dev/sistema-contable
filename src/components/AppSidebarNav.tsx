@@ -1,6 +1,5 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import PropTypes from 'prop-types'
 
 import SimpleBar from 'simplebar-react'
 import 'simplebar-react/dist/simplebar.min.css'
@@ -67,7 +66,8 @@ export const AppSidebarNav = ({ items }) => {
     </CSidebarNav>
   )
 }
-
+/*
 AppSidebarNav.propTypes = {
   items: PropTypes.arrayOf(PropTypes.any).isRequired,
 }
+ */
