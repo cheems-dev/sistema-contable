@@ -16,7 +16,23 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
 
+// Services
+import { useLogin } from 'src/services/login/query'
+
 const Login = () => {
+  const loginMutate = useLogin()
+  const onSubmit = () => {
+    const payload = {
+      CompanyDB: 'FEMACO__PROD',
+      Password: 'ProgFem7',
+      UserName: 'Prog7',
+    }
+
+    const response = loginMutate.mutateAsync(payload)
+    console.log('🚀 ~ onSubmit ~ response:', response)
+    console.log('hola mundo')
+  }
+
   return (
     <div className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
@@ -46,7 +62,7 @@ const Login = () => {
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
-                        <CButton color="primary" className="px-4">
+                        <CButton color="primary" className="px-4" onClick={onSubmit}>
                           Login
                         </CButton>
                       </CCol>

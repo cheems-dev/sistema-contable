@@ -7,6 +7,8 @@ import './scss/style.scss'
 
 // We use those styles to show code examples, you should remove them in your application.
 import './scss/examples.scss'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { queryClient } from './utils/queryClient'
 
 // Containers
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))

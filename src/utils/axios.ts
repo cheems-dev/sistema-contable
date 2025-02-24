@@ -1,27 +1,40 @@
-// En axiosConfig.js
-axiosInstance.interceptors.response.use(
-  (response) => {
-    return response
+import axios from 'axios'
+
+export const apiLogin = (() => {
+  return axios.create({
+    baseURL: import.meta.env.VITE_API_LOGIN,
+    headers: {
+      Accept: 'application/json, text/plain, */*',
+    },
+  })
+})()
+
+// Interceptor para agregar el token de autorización
+apiLogin.interceptors.request.use(
+  (config) => {
+    /*   const token = localStorage.getItem('token')
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }*/
+    return config
   },
+  (error) => Promise.reject(error),
+)
+
+// Interceptor para manejo de errores globales
+apiLogin.interceptors.response.use(
+  (response) => response,
   (error) => {
+    console.error('Error en la API:', error.response?.data || error.message)
     if (error.response) {
-      // Manejo de errores basado en el código de estado
-      switch (error.response.status) {
-        case 401:
-          console.error('Error 401: No autorizado')
-          // Aquí puedes redirigir al usuario a la página de inicio de sesión
-          break
-        case 404:
-          console.error('Error 404: No encontrado')
-          break
-        default:
-          console.error('Error desconocido:', error.response)
-      }
+      console.error('Respuesta del servidor:', error.response.data)
     } else if (error.request) {
-      console.error('No se recibió respuesta del servidor')
+      console.error('Sin respuesta del servidor:', error.request)
     } else {
-      console.error('Error de configuración:', error.message)
+      console.error('Error desconocido:', error.message)
     }
     return Promise.reject(error)
   },
 )
+
+export default apiLogin
