@@ -1,13 +1,11 @@
-import React, { Suspense, useEffect } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-
 import { CSpinner, useColorModes } from '@coreui/react'
-import './scss/style.scss'
-
-// We use those styles to show code examples, you should remove them in your application.
-import './scss/examples.scss'
 import { QueryClientProvider } from '@tanstack/react-query'
+import React, { Suspense, useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { ProtectedRoute } from './components/ProtectedRoute'
+import './scss/examples.scss'
+import './scss/style.scss'
 import { queryClient } from './utils/queryClient'
 
 // Containers
@@ -20,11 +18,12 @@ const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 
 const App = () => {
   const { isColorModeSet, setColorMode } = useColorModes('coreui-free-react-admin-template-theme')
-  const storedTheme = useSelector((state) => state.theme)
+  const storedTheme = useSelector((state: any) => state.theme)
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.href.split('?')[1])
-    const theme = urlParams.get('theme') && urlParams.get('theme').match(/^[A-Za-z0-9\s]+/)[0]
+    const urlParams = new URLSearchParams(window.location.href.split('?')[1] || '')
+    const theme = urlParams.get('theme')?.match(/^[A-Za-z0-9\s]+/)?.[0]
+    
     if (theme) {
       setColorMode(theme)
     }
@@ -34,25 +33,34 @@ const App = () => {
     }
 
     setColorMode(storedTheme)
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isColorModeSet, setColorMode, storedTheme])
 
   return (
-    <BrowserRouter>
-      <Suspense
-        fallback={
-          <div className="pt-3 text-center">
-            <CSpinner color="primary" variant="grow" />
-          </div>
-        }
-      >
-        <Routes>
-          <Route exact path="/login" name="Login Page" element={<Login />} />
-          <Route exact path="/404" name="Page 404" element={<Page404 />} />
-          <Route exact path="/500" name="Page 500" element={<Page500 />} />
-          <Route path="*" name="Home" element={<DefaultLayout />} />
-        </Routes>
-      </Suspense>
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Suspense
+          fallback={
+            <div className="pt-3 text-center">
+              <CSpinner color="primary" variant="grow" />
+            </div>
+          }
+        >
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/404" element={<Page404 />} />
+            <Route path="/500" element={<Page500 />} />
+            <Route
+              path="*"
+              element={
+                <ProtectedRoute>
+                  <DefaultLayout />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </Suspense>
+      </BrowserRouter>
+    </QueryClientProvider>
   )
 }
 

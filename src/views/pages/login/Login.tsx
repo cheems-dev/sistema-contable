@@ -1,6 +1,7 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { cilLockLocked, cilUser } from '@coreui/icons'
+import CIcon from '@coreui/icons-react'
 import {
+  CAlert,
   CButton,
   CCard,
   CCardBody,
@@ -11,27 +12,44 @@ import {
   CFormInput,
   CInputGroup,
   CInputGroupText,
-  CRow,
+  CRow
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cilLockLocked, cilUser } from '@coreui/icons'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useAuth } from 'src/hooks/useAuth'
 
-// Services
-import { useLogin } from 'src/services/login/query'
+type FormInputs = {
+  UserName: string
+  Password: string
+  CompanyDB: string
+}
 
 const Login = () => {
-  const loginMutate = useLogin()
-  const onSubmit = () => {
-    const payload = {
-      CompanyDB: 'FEMACO__PROD',
-      Password: 'ProgFem7',
-      UserName: 'Prog7',
+  const { login, isLoading } = useAuth()
+  const [error, setError] = useState<string | null>(null)
+  
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormInputs>({
+    defaultValues: {
+      CompanyDB: 'FEMACO__PROD'
     }
+  })
 
-    const response = loginMutate.mutateAsync(payload)
-    console.log('🚀 ~ onSubmit ~ response:', response)
-    console.log('hola mundo')
-  }
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      setError(null)
+      const result = await login(data)
+      if (!result.success) {
+        setError(result.error)
+      }
+    } catch (error) {
+      setError('An unexpected error occurred')
+      console.error('Login error:', error)
+    }
+  })
 
   return (
     <div className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
@@ -41,14 +59,26 @@ const Login = () => {
             <CCardGroup>
               <CCard className="p-4">
                 <CCardBody>
-                  <CForm>
-                    <h1>Login</h1>
-                    <p className="text-body-secondary">Sign In to your account</p>
+                  <CForm onSubmit={onSubmit}>
+                    <h1>Inicio de Sesión</h1>
+                    <p className="text-body-secondary">Entra en tu cuenta</p>
+                    {error && (
+                      <CAlert color="danger" className="mb-3">
+                        {error}
+                      </CAlert>
+                    )}
                     <CInputGroup className="mb-3">
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
                       </CInputGroupText>
-                      <CFormInput placeholder="Username" autoComplete="username" />
+                      <CFormInput 
+                        placeholder="Usuario" 
+                        {...register("UserName", { 
+                          required: "Usuario requerido" 
+                        })}
+                        invalid={!!errors.UserName}
+                        feedback={errors.UserName?.message}
+                      />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
@@ -57,20 +87,29 @@ const Login = () => {
                       <CFormInput
                         type="password"
                         placeholder="Password"
-                        autoComplete="current-password"
+                        {...register("Password", { 
+                          required: "Password es requerido" 
+                        })}
+                        invalid={!!errors.Password}
+                        feedback={errors.Password?.message}
                       />
                     </CInputGroup>
                     <CRow>
-                      <CCol xs={6}>
-                        <CButton color="primary" className="px-4" onClick={onSubmit}>
-                          Login
+                      <CCol xs={12}>
+                        <CButton 
+                          type="submit" 
+                          color="primary" 
+                          className="px-4"
+                          disabled={isLoading}
+                        >
+                          {isLoading ? 'Espere...' : 'Iniciar Sesión'}
                         </CButton>
                       </CCol>
-                      <CCol xs={6} className="text-right">
+                   {/*    <CCol xs={6} className="text-right">
                         <CButton color="link" className="px-0">
                           Forgot password?
                         </CButton>
-                      </CCol>
+                      </CCol> */}
                     </CRow>
                   </CForm>
                 </CCardBody>
