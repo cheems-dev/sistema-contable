@@ -49,7 +49,12 @@ const _nav = [
         component: CNavItem,
         name: 'Balance General',
         to: '/balance-general',
-      },
+      },      
+      {
+        component: CNavItem,
+        name: 'Tabla-anidada',
+        to: '/tabla-anidada',
+      }
     ],
   },
 ]
