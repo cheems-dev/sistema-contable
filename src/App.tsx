@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import './scss/examples.scss'
 import './scss/style.scss'
+import './scss/table/tableStyle.scss'
 import { queryClient } from './utils/queryClient'
 
 // Containers

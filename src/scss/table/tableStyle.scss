@@ -1,0 +1,75 @@
+// Level background colors
+.level-0 {
+  background-color: #fff2cc !important;
+}
+
+.level-1 {
+  background-color: #d9ead3 !important;
+}
+
+// Responsive table styles
+.responsive-table {
+  .htCore {
+    /* table-layout: auto !important; */
+    
+    td {
+      word-break: break-word;
+      padding: 8px 12px;
+      white-space: normal !important;
+    }
+  }
+
+  min-width: 600px;
+}
+
+// Column resizing handlers
+.ht_master .wtHolder {
+  cursor: col-resize;
+}
+
+.handsontable.columnResizing {
+  cursor: col-resize !important;
+}
+
+// Table container
+.table-container {
+  overflow-x: auto;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  height: 750px; // Fixed height
+  transition: height 0.3s ease; // Optional animation
+}
+
+// Row header cells
+.ht_clone_left .htCore th {
+  background-color: #f7f7f7;
+  color: #333;
+  text-align: center;
+  font-weight: bold;
+  width: 60px;
+}
+
+// Expand/collapse buttons
+.ht_nestingButton {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  border: 1px solid #007bff;
+  border-radius: 3px;
+  background-color: #fff;
+  color: #007bff;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &--collapsed::before {
+    content: "+";
+  }
+
+  &--expanded::before {
+    content: "-";
+  }
+}
